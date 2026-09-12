@@ -1,16 +1,13 @@
-from model import Appointment
-from pet_owner_management import pets
+from model import Appointment, ClinicDatabase
 
-appointments = []
+db = ClinicDatabase()
 VALID_STATUSES = {"Scheduled", "Completed", "Cancelled"}
 
-
 def find_appointment(appointment_id):
-    for appointment in appointments:
+    for appointment in db.appointments:
         if appointment.appointment_id == appointment_id:
             return appointment
     return None
-
 
 def schedule(appointment_id, pet_id, appointment_date, appointment_time):
     if find_appointment(appointment_id) is not None:
@@ -18,7 +15,7 @@ def schedule(appointment_id, pet_id, appointment_date, appointment_time):
         return None
 
     pet = None
-    for registered_pet in pets:
+    for registered_pet in db.pets:
         if registered_pet.pet_id == pet_id:
             pet = registered_pet
             break
@@ -26,7 +23,7 @@ def schedule(appointment_id, pet_id, appointment_date, appointment_time):
         print("Pet not found. Please enter a registered Pet ID.")
         return None
 
-    for appointment in appointments:
+    for appointment in db.appointments:
         same_slot = (
             appointment.pet.pet_id == pet_id
             and appointment.appointment_date == appointment_date
@@ -38,7 +35,7 @@ def schedule(appointment_id, pet_id, appointment_date, appointment_time):
             return None
 
     appointment = Appointment(appointment_id, pet, appointment_date, appointment_time)
-    appointments.append(appointment)
+    db.appointments.append(appointment)
     return appointment
 
 
@@ -49,7 +46,6 @@ def cancel_appointment(appointment_id):
         return None
     appointment.status = "Cancelled"
     return appointment
-
 
 def update_appointment_status(appointment_id, status):
     if status not in VALID_STATUSES:
@@ -63,15 +59,15 @@ def update_appointment_status(appointment_id, status):
     appointment.status = status
     return appointment
 
-
 def view_appointments():
-    print("\nAPPOINTMENT SCHEDULE")
+    print("\n")
+    print("APPOINTMENT SCHEDULE")
 
-    if len(appointments) == 0:
+    if len(db.appointments) == 0:
         print("No appointments scheduled.")
         return
 
-    for appointment in appointments:
+    for appointment in db.appointments:
         print(f"Appointment ID: {appointment.appointment_id}")
         print(f"Pet: {appointment.pet.name} ({appointment.pet.pet_id})")
         print(f"Date: {appointment.appointment_date}")
@@ -80,14 +76,15 @@ def view_appointments():
 
 
 def schedule_appointment():
-    print("\nSCHEDULE APPOINTMENT")
+    print("\n")
+    print("SCHEDULE APPOINTMENT")
 
-    if len(pets) == 0:
+    if len(db.pets) == 0:
         print("Please add a pet record first.")
         return
 
     print("REGISTERED PETS")
-    for pet in pets:
+    for pet in db.pets:
         print(f"{pet.pet_id} - {pet.name}")
 
     appointment_id = input("Enter Appointment ID: ")
@@ -96,19 +93,22 @@ def schedule_appointment():
     appointment_time = input("Enter Appointment Time: ")
 
     if schedule(appointment_id, pet_id, appointment_date, appointment_time) is not None:
-        print("\nAppointment scheduled successfully!")
+        print("\n")
+        print("Appointment scheduled successfully!")
 
 
 def cancel_scheduled_appointment():
-    print("\nCANCEL APPOINTMENT")
+    print("\n")
+    print("CANCEL APPOINTMENT")
     appointment_id = input("Enter Appointment ID: ")
 
     if cancel_appointment(appointment_id) is not None:
-        print("\nAppointment cancelled successfully!")
-
+        print("\n")
+        print("Appointment cancelled successfully!")
 
 def change_appointment_status():
-    print("\nUPDATE APPOINTMENT STATUS")
+    print("\n")
+    print("UPDATE APPOINTMENT STATUS")
     appointment_id = input("Enter Appointment ID: ")
 
     print("1. Scheduled")
@@ -126,4 +126,5 @@ def change_appointment_status():
     status = status_choices[choice]
 
     if update_appointment_status(appointment_id, status) is not None:
-        print("\nAppointment status updated successfully!")
+        print("\n")
+        print("Appointment status updated successfully!")

@@ -1,48 +1,49 @@
-from model import PetOwner, Pet
+from model import PetOwner, PetFactory, ClinicDatabase
 
-owners = []
-pets = []
-
-
+db = ClinicDatabase()
 
 def register_owner():
-    print("\nREGISTER NEW PET OWNER")
+    print("\n")
+    print("REGISTER NEW PET OWNER")
 
     owner_id = input("Enter Owner ID: ")
     name = input("Enter Owner Name: ")
     contact_number = input("Enter Contact Number: ")
 
     owner = PetOwner(owner_id, name, contact_number)
-    owners.append(owner)
+    db.owners.append(owner)
 
-    print("\nPet owner registered successfully!")
+    print("\n")
+    print("Pet owner registered successfully!")
 
 
 def view_owners():
-    print("\nREGISTERED PET OWNERS")
+    print("\n")
+    print("REGISTERED PET OWNERS")
 
-    if len(owners) == 0:
+    if len(db.owners) == 0:
         print("No registered pet owners.")
         return
 
-    for owner in owners:
+    for owner in db.owners:
         print(f"Owner ID: {owner.owner_id}")
         print(f"Name: {owner.name}")
         print(f"Contact Number: {owner.contact_number}")
 
 
-
 def add_pet():
-    print("\nADD PET RECORD")
+    print("\n")
+    print("ADD PET RECORD")
 
-    if len(owners) == 0:
+    if len(db.owners) == 0:
         print("Please register a pet owner first.")
         return
 
     pet_id = input("Enter Pet ID: ")
     name = input("Enter Pet Name: ")
 
-    print("\nPet Types:")
+    print("\n")
+    print("Pet Types:")
     print("1. Dog")
     print("2. Cat")
     print("3. Bird")
@@ -63,16 +64,18 @@ def add_pet():
 
     pet_type = pet_types[choice]
 
-    print("\nREGISTERED OWNERS")
+    print("\n")
+    print("REGISTERED OWNERS")
 
-    for owner in owners:
+    for owner in db.owners:
         print(f"{owner.owner_id} - {owner.name}")
 
-    owner_id = input("\nEnter Owner ID: ")
+    print("\n")
+    owner_id = input("Enter Owner ID: ")
 
     owner = None
 
-    for registered_owner in owners:
+    for registered_owner in db.owners:
         if registered_owner.owner_id == owner_id:
             owner = registered_owner
             break
@@ -81,20 +84,22 @@ def add_pet():
         print("Owner not found.")
         return
 
-    pet = Pet(pet_id, name, pet_type, owner)
-    pets.append(pet)
+    pet = PetFactory.create_pet(pet_id, name, pet_type, owner)
+    db.pets.append(pet)
 
-    print("\nPet record added successfully!")
+    print("\n")
+    print("Pet record added successfully!")
 
 
 def view_pets():
-    print("\nREGISTERED PETS")
+    print("\n")
+    print("REGISTERED PETS")
 
-    if len(pets) == 0:
+    if len(db.pets) == 0:
         print("No registered pets.")
         return
 
-    for pet in pets:
+    for pet in db.pets:
         print(f"Pet ID: {pet.pet_id}")
         print(f"Pet Name: {pet.name}")
         print(f"Pet Type: {pet.pet_type}")
