@@ -1,8 +1,9 @@
-from pet_owner_management import (
-    register_owner,
-    view_owners,
-    add_pet,
-    view_pets
+from pet_owner_management import register_owner, view_owners, add_pet, view_pets
+from appointment_management import (
+    schedule_appointment,
+    view_appointments,
+    cancel_scheduled_appointment,
+    change_appointment_status,
 )
 
 while True:
@@ -12,7 +13,11 @@ while True:
     print("2. View Registered Pet Owners")
     print("3. Add Pet Record")
     print("4. View Pet Information")
-    print("5. Exit")
+    print("5. Schedule Appointment")
+    print("6. View Appointment Schedule")
+    print("7. Cancel Appointment")
+    print("8. Update Appointment Status")
+    print("9. Exit")
 
     choice = input("\nSelect an option: ")
 
@@ -25,6 +30,14 @@ while True:
     elif choice == "4":
         view_pets()
     elif choice == "5":
+        schedule_appointment()
+    elif choice == "6":
+        view_appointments()
+    elif choice == "7":
+        cancel_scheduled_appointment()
+    elif choice == "8":
+        change_appointment_status()
+    elif choice == "9":
         print("\nThank you!")
         break
     else:

@@ -11,3 +11,12 @@ class Pet:
         self.name = name
         self.pet_type = pet_type
         self.owner = owner
+
+
+class Appointment:
+    def __init__(self, appointment_id, pet, appointment_date, appointment_time):
+        self.appointment_id = appointment_id
+        self.pet = pet
+        self.appointment_date = appointment_date
+        self.appointment_time = appointment_time
+        self.status = "Scheduled"
