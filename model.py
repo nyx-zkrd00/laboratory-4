@@ -20,3 +20,19 @@ class Appointment:
         self.appointment_date = appointment_date
         self.appointment_time = appointment_time
         self.status = "Scheduled"
+
+class ClinicDatabase:
+    _instance = None
+
+    def __new__(cls):
+        if cls._instance is None:
+            cls._instance = super(ClinicDatabase, cls).__new__(cls)
+            cls._instance.owners = []
+            cls._instance.pets = []
+            cls._instance.appointments = []
+        return cls._instance
+
+class PetFactory:
+    @staticmethod
+    def create_pet(pet_id, name, pet_type, owner):
+        return Pet(pet_id, name, pet_type, owner)
